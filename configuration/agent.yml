@@ -1,0 +1,54 @@
+<ossec_config>
+  <client>
+    <server>
+      <address>10.0.0.2</address>   <!-- Replace with your Wazuh Manager IP -->
+      <port>1514</port>
+      <protocol>tcp</protocol>
+    </server>
+  </client>
+
+  <syscheck>
+    <disabled>no</disabled>
+    <frequency>7200</frequency>
+    <scan_on_start>yes</scan_on_start>
+    <directories>/etc,/usr/bin,/usr/sbin</directories>
+    <ignore>/etc/mtab</ignore>
+    <ignore>/etc/hosts.deny</ignore>
+  </syscheck>
+
+  <rootcheck>
+    <disabled>no</disabled>
+    <check_files>yes</check_files>
+    <check_trojans>yes</check_trojans>
+    <check_dev>yes</check_dev>
+    <check_sys>yes</check_sys>
+  </rootcheck>
+
+  <localfile>
+    <log_format>syslog</log_format>
+    <location>/var/log/auth.log</location>
+  </localfile>
+
+  <localfile>
+    <log_format>syslog</log_format>
+    <location>/var/log/syslog</location>
+  </localfile>
+
+  <log_collector>
+    <remote_commands>no</remote_commands>
+  </log_collector>
+
+  <registration>
+    <enabled>yes</enabled>
+    <manager_address>10.0.0.2</manager_address> <!-- Wazuh Manager IP -->
+    <port>1515</port>
+    <use_password>yes</use_password>
+    <password>wazuh-agent</password>           <!-- Set this in manager authd -->
+  </registration>
+
+  <client_buffer>
+    <disabled>no</disabled>
+    <queue_size>16384</queue_size>
+    <events_per_second>500</events_per_second>
+  </client_buffer>
+</ossec_config>

@@ -1,0 +1,25 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Compiled files
+*.pyc
+*.class
+*.o
+
+# IDE/editor configs
+.vscode/
+.idea/
+*.swp
+
+# Temp files
+*.bak
+*.tmp
+*.swp
+
+# Backup files
+*~
+

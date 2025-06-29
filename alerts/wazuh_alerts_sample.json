@@ -1,0 +1,61 @@
+<!-- Detect multiple failed SSH login attempts -->
+<rule id="100500" level="8" frequency="5" timeframe="300" group="authentication_failed,brute_force">
+  <field name="srcip" />
+  <match>Failed password for</match>
+  <description>Multiple SSH failed login attempts</description>
+</rule>
+
+<!-- Detect successful SSH login -->
+<rule id="100501" level="10" group="authentication_success">
+  <field name="srcip" />
+  <match>Accepted password for</match>
+  <description>Successful SSH login</description>
+  <trigger>100500</trigger> <!-- Trigger rule 100500 (failed attempts) -->
+</rule>
+
+
+<!-- Suspicious User Agent in Web Access Logs -->
+<rule id="100600" level="10" group="web_attack">
+  <field name="user_agent" />
+  <match>(sqlmap|nikto|acunetix|havij|nessus|acunetix|fuzz|nmap|masscan|curl|wget|python-requests)</match>
+  <description>Suspicious User-Agent detected in web access logs</description>
+</rule>
+
+
+<!-- Privilege Escalation via Sudo in Last 10 minutes (Multiple Attempts) -->
+<rule id="100700" level="12" frequency="3" timeframe="600" group="privilege_escalation">
+  <match>sudo:</match>
+  <description>Multiple sudo attempts detected</description>
+</rule>
+
+
+<!-- Persistence Mechanism Detection -->
+<rule id="100800" level="15" group="persistence">
+  <match>cron</match>
+  <description>Potential cron job persistence detected</description>
+</rule>
+
+<rule id="100801" level="15" group="persistence">
+  <match>systemd.*new service</match>
+  <description>New systemd service created</description>
+</rule>
+
+
+<!-- Unusual Process Execution -->
+<rule id="100900" level="14" group="process_execution">
+  <match>(nc|netcat|nmap|tcpdump|wireshark|bash -i|perl -e|python -c|ruby -e|curl|wget)</match>
+  <description>Potential suspicious process execution detected</description>
+</rule>
+
+
+<!-- Multiple Failed Windows Login Attempts Followed by Success -->
+<rule id="101000" level="10" frequency="5" timeframe="600" group="windows_security">
+  <match>Audit Failure</match>
+  <description>Multiple failed Windows login attempts</description>
+</rule>
+
+<rule id="101001" level="15" group="windows_security">
+  <match>Audit Success</match>
+  <description>Successful Windows login after failures</description>
+  <trigger>101000</trigger>
+</rule>
